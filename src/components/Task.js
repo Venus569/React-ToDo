@@ -2,14 +2,15 @@ import React from 'react'
 import { useState, useEffect } from "react";
 
 export const Task = (props) => {
-  const { addTask, deleteTask, moveTask, task } = props;
+  const { bs,
+  handleChangeBS,addTask, deleteTask, moveTask, task } = props;
 
 
     const [collapsed, setCollapsed] = useState(task.isCollapsed);
     const [formAction, setFormAction] = useState("");
     const [zoom,setZoom]=useState(false);
 
-//    handleBoxToggle = () => this.setState({ showBox: !this.state.showBox });
+    console.log("bs value",bs);
 
 
     function handleSubmit(event) {
@@ -53,11 +54,13 @@ export const Task = (props) => {
 
 
   return (
-    <div className='tasks'>
+    <div className='tasks' onMouseEnter={() => {handleChangeBS(!bs)}}
+    onMouseLeave={() => {handleChangeBS(!bs)}}>
     
-      <div className={`task ${collapsed ? "collapsedTask" : ""}`}>
+      <div  
+            className={`task ${collapsed ? "collapsedTask" : ""}   `}>
       <div className='taskheader'>{task.title}</div>
-      <div className='taskdescription'>{task.description}</div>
+      
       <p></p>
       <form onSubmit={handleSubmit} className={collapsed ? "collapsed" : ""}>
         <input
@@ -67,20 +70,21 @@ export const Task = (props) => {
           placeholder="Enter Title"
           disabled={collapsed}
           defaultValue={task.title}
+          
         />
         <textarea
-          rows="2"
+          rows="4"
           className="description input"
           name="description"
           placeholder="Enter Description"
           defaultValue={task.description}
         />
-        
+        {collapsed?<p className={`texts ${bs ? "" : "thin"}`}>{task.description}</p>:null}
         <button
           onClick={() => {
             setFormAction("save");
           }}
-          className="button"
+          className={`button edit ${bs ? "" : "thin"}`}
         >
           {collapsed ? "Edit" : "Save"}
         </button>
@@ -89,15 +93,17 @@ export const Task = (props) => {
             onClick={() => {
               setFormAction("delete");
             }}
-            className="button delete"
+            className={`button delete ${bs ? "" : "thin"}`}
           >
             X
           </button>
         )}
-      </form>
-      <button onClick={handleMoveRight} className="button moveTask">
+        {collapsed && (
+        <button onClick={handleMoveRight} className={`button moveTask ${bs ? "" : "thin"}`}>
         &#187;
-      </button>
+      </button>)}
+      </form>
+      
     </div>
     </div>
     
@@ -105,3 +111,4 @@ export const Task = (props) => {
 
 
 }
+//${bs ? "" : "thin"}

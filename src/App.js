@@ -32,11 +32,24 @@ function App() {
 
 
   function addTask(taskToAdd) {
-    let filteredTasks = tasks.filter((task) => {
+   /*let filteredTasks = tasks.filter((task) => {
       return task.id !== taskToAdd.id;
     });
 
     let newTaskList = [...filteredTasks, taskToAdd];
+    */
+    
+    
+    
+    let newTaskList=[];
+    tasks.forEach(task => {
+      if(task.id===taskToAdd.id)
+        {
+          newTaskList.push(taskToAdd);
+        }
+        else
+        newTaskList.push(task);
+    });
 
     setTasks(newTaskList);
 
@@ -54,17 +67,24 @@ function App() {
   }
 
   function moveTask(id, newStatus) {
-    let task = tasks.filter((task) => {
+    /*let task = tasks.filter((task) => {
       return task.id === id;
     })[0];
 
     let filteredTasks = tasks.filter((task) => {
       return task.id !== id;
     });
-
+    console.log("tasking ",task);
     task.status = newStatus;
 
-    let newTaskList = [...filteredTasks, task];
+    let newTaskList = [...filteredTasks, task];*/
+     
+    let newTaskList=[];
+    tasks.forEach(task => {
+      if(task.id===id)
+        task.status=newStatus;
+      newTaskList.push(task);
+    });
 
     setTasks(newTaskList);
 
@@ -100,7 +120,7 @@ function App() {
     <div class="container">
       
       
-
+      <h1 class="headers">To do tasks</h1>
       <StatusLine
             tasks={tasks}
             addEmptyTask={addEmptyTask}
@@ -109,6 +129,9 @@ function App() {
             moveTask={moveTask}
             status="In Progress"
           />
+
+<h1 class="headers">Finished tasks</h1>
+
           <StatusLine
             tasks={tasks}
             addEmptyTask={addEmptyTask}
